@@ -204,4 +204,5 @@ public class DoublyLinkedList<T> {
             throw new IndexOutOfBoundsException("The index is out of range with id: " +  size());
         }
     }
+
 }
