@@ -33,7 +33,6 @@ public class CallableThread {
         System.out.println("[Main] жду 1 секунду перед сигналом...");
         Thread.sleep(1000);
         lock.lock();
-
         try {
             ready = true;
             condition.signal();
@@ -46,10 +45,12 @@ public class CallableThread {
     public static void main(String[] args) {
         CallableThread app = new CallableThread();
 
-        ExecutorService service = Executors.newSingleThreadExecutor();
+        ExecutorService service = Executors.newCachedThreadPool();
 
         try{
             Future<String> future = service.submit(app.createWorker());
+            CompletableFuture<String> complFuture = CompletableFuture.supplyAsync(() -> { return "sdert"; }).thenApply(String::toUpperCase);
+            complFuture.get();
             app.signalWorker();
 
             String result = future.get(5, TimeUnit.SECONDS);
